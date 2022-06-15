@@ -1,21 +1,12 @@
 import React from "react";
 import Header from "./Header";
-import TaskElement from "./TaskElement";
+import Log from "./Log";
 import { nanoid } from "nanoid";
 
-export default function Logger(props) {
-	const [formData, setFormData] = React.useState({
-		name: "",
-		startTime: {
-			hour: "",
-			minute: "",
-		},
-		endTime: {
-			hour: "",
-			minute: "",
-		},
-		type: "",
-	});
+import emptyLogFormData from "../data/emptyLogFormData";
+
+export default function Logger({ logs, setLogs }) {
+	const [formData, setFormData] = React.useState(emptyLogFormData);
 
 	function handleChange(event) {
 		if (event.target.name === "hour" || event.target.name === "minute") {
@@ -42,9 +33,9 @@ export default function Logger(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 
-		props.setTaskList((prevTaskList) => {
+		setLogs((prevLogs) => {
 			return [
-				...prevTaskList,
+				...prevLogs,
 				{
 					name: formData.name,
 					startTime: formData.startTime,
@@ -54,28 +45,17 @@ export default function Logger(props) {
 			];
 		});
 
-		setFormData({
-			name: "",
-			startTime: {
-				hour: "",
-				minute: "",
-			},
-			endTime: {
-				hour: "",
-				minute: "",
-			},
-			type: "",
-		});
+		setFormData(emptyLogFormData);
 	}
 
 	function handleDelete(id) {
-		props.setTaskList((prevTaskList) => {
-			return prevTaskList.filter((taskList) => taskList.id !== id);
+		setLogs((prevLogs) => {
+			return prevLogs.filter((prevLog) => prevLog.id !== id);
 		});
 	}
 
-	const taskListElements = props.taskList.map((taskElement) => {
-		return <TaskElement key={nanoid()} taskElement={taskElement} deleteTaskElement={() => handleDelete(taskElement.id)} />;
+	const logElements = logs.map((log) => {
+		return <Log key={nanoid()} log={log} deleteLog={() => handleDelete(log.id)} />;
 	});
 
 	return (
@@ -91,18 +71,18 @@ export default function Logger(props) {
 					<p>Type of Task</p>
 					<p>Add/Delete Tasks</p>
 				</div>
-				<div className="logger-list">{taskListElements}</div>
+				<div className="logger-list">{logElements}</div>
 				<form className="logger-form" onSubmit={handleSubmit}>
-					<input type="text" placeholder="Add New Task" name="name" onChange={handleChange} value={formData.name}/>
+					<input type="text" placeholder="Add New Task" name="name" onChange={handleChange} value={formData.name} />
 					<div name="startTime">
-						<input type="text" placeholder="Hour" name="hour" onChange={handleChange} value={formData.startTime.hour}/>
-						<input type="text" placeholder="Minutes" name="minute" onChange={handleChange} value={formData.startTime.minute}/>
+						<input type="text" placeholder="Hour" name="hour" onChange={handleChange} value={formData.startTime.hour} />
+						<input type="text" placeholder="Minutes" name="minute" onChange={handleChange} value={formData.startTime.minute} />
 					</div>
 					<div name="endTime">
-						<input type="text" placeholder="Hour" name="hour" onChange={handleChange} value={formData.endTime.hour}/>
-						<input type="text" placeholder="Minutes" name="minute" onChange={handleChange} value={formData.endTime.minute}/>
+						<input type="text" placeholder="Hour" name="hour" onChange={handleChange} value={formData.endTime.hour} />
+						<input type="text" placeholder="Minutes" name="minute" onChange={handleChange} value={formData.endTime.minute} />
 					</div>
-					<input type="text" placeholder="Type of Task" name="type" onChange={handleChange} value={formData.type}/>
+					<input type="text" placeholder="Type of Task" name="type" onChange={handleChange} value={formData.type} />
 					<button>Add</button>
 				</form>
 			</div>

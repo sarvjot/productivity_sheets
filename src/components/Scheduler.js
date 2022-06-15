@@ -1,67 +1,50 @@
 import React from "react";
 import Header from "./Header";
-import TaskType from "./TaskType";
+import Todo from "./Todo";
 import { nanoid } from "nanoid";
 
-export default function Scheduler(props) {
-	const [formData, setFormData] = React.useState({
-		type: "",
-		time: "",
-		donePercentage: "",
-	});
+import emptyTodoFormData from "../data/emptyTodoFormData";
+import givePercentageComplete from "../utils/givePercentageComplete";
 
-	function handleChange(event){
-		setFormData(prevFormData => {
+export default function Scheduler({ logs, todos, setTodos }) {
+	const [formData, setFormData] = React.useState(emptyTodoFormData);
+
+	function handleChange(event) {
+		setFormData((prevFormData) => {
 			return {
 				...prevFormData,
-				[event.target.name]: event.target.value
-			}
-		})
-	}
-
-	function minutes(time_1, time_2) {
-		return (time_2.hour - time_1.hour) * 60 + (time_2.minute - time_1.minute);
+				[event.target.name]: event.target.value,
+			};
+		});
 	}
 
 	function handleSubmit(event) {
 		event.preventDefault();
 
-		props.setTaskTypes(prevTaskTypes => {
-
-			let donePercentage = 0;
-			props.taskList.forEach((task) => {
-				if (task.type === formData.type) {
-					donePercentage += minutes(task.startTime, task.endTime);
-				}
-			});
-			donePercentage = Number((donePercentage / formData.time) * 100);
-			donePercentage = Math.min(100, donePercentage);
+		setTodos((prevTodos) => {
+			let percentageComplete = givePercentageComplete(formData.type, formData.time, logs);
 
 			return [
-				...prevTaskTypes,
+				...prevTodos,
 				{
 					type: formData.type,
 					time: formData.time,
-					donePercentage: donePercentage,
-				}
-			]
-		})
+					percentageComplete: percentageComplete,
+				},
+			];
+		});
 
-		setFormData({
-			type: "",
-			time: "",
-			donePercentage: "",
+		setFormData(emptyTodoFormData);
+	}
+
+	function handleDelete(id) {
+		setTodos((prevTodos) => {
+			return prevTodos.filter((todo) => todo.id !== id);
 		});
 	}
 
-	function handleDelete(id){
-		props.setTaskTypes(prevTaskTypes => {
-			return prevTaskTypes.filter(taskType => taskType.id !== id)
-		})
-	}
-
-	const taskTypeElements = props.taskTypes.map((taskType) => {
-		return <TaskType key={nanoid()} taskType={taskType} deleteTaskType={() => handleDelete(taskType.id)}/>;
+	const todoElements = todos.map((todo) => {
+		return <Todo key={nanoid()} todo={todo} deleteTodo={() => handleDelete(todo.id)} />;
 	});
 
 	return (
@@ -76,11 +59,11 @@ export default function Scheduler(props) {
 					<p>Percentage of Target Achieved</p>
 					<p>Add/Delete Tasks</p>
 				</div>
-				<div className="scheduler-list">{taskTypeElements}</div>
+				<div className="scheduler-list">{todoElements}</div>
 				<form className="scheduler-form" onSubmit={(e) => handleSubmit(e)}>
-					<input type="text" placeholder="Add New Task" onChange={handleChange} name="type" value={formData.type}/>
-					<input type="text" placeholder="Enter Time" onChange={handleChange} name="time" value={formData.time}/>
-					<input type="text" placeholder="Not Applicable" onChange={handleChange} name="donePercentage" disabled="disabled"/>
+					<input type="text" placeholder="Add New Task" onChange={handleChange} name="type" value={formData.type} />
+					<input type="text" placeholder="Enter Time" onChange={handleChange} name="time" value={formData.time} />
+					<input type="text" placeholder="Not Applicable" onChange={handleChange} name="percentageComplete" disabled="disabled" />
 					<button>Add</button>
 				</form>
 			</div>
