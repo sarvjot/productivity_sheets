@@ -1,15 +1,15 @@
 /* Global Styles */
 
 * {
-	margin: 0;
-	padding: 0;
-	font-family: "Archivo", sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Archivo', sans-serif;
     text-decoration: none;
     color: black;
 }
 
 /* Home Page */
-.jumbotron{
+.jumbotron {
     font-size: 200px;
     text-align: center;
     margin-top: 150px;
@@ -17,33 +17,33 @@
 
 /* Header Styles */
 
-header{
+header {
     display: flex;
-    justify-content: space-between;     
+    justify-content: space-between;
     align-items: center;
     /* background-color: yellow; */
     height: 100px;
-	box-shadow: 0px 2px 10px gray;
+    box-shadow: 0px 2px 10px gray;
 }
 
-.link-container-1{
+.link-container-1 {
     width: 20%;
     text-align: center;
     font-size: 30px;
 }
 
-.link-container-2{
+.link-container-2 {
     width: 40%;
     display: flex;
     justify-content: space-around;
     font-size: 40px;
 }
 
-.selected{
+.selected {
     opacity: 50%;
 }
 
-.cur-date-container{
+.cur-date-container {
     width: 20%;
     text-align: center;
     font-size: 30px;
@@ -53,22 +53,22 @@ header{
 
 /* Scheduler Headings */
 
-.scheduler-body{
+.scheduler-body {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-bottom: 50px;
 }
 
-.scheduler-title{
+.scheduler-title {
     margin-top: 40px;
 }
 
-.scheduler-subtitle{
+.scheduler-subtitle {
     margin-top: 20px;
 }
 
-.scheduler-heading{
+.scheduler-heading {
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -78,32 +78,39 @@ header{
     margin-top: 50px;
 }
 
-.scheduler-heading > p, .task-type > p{
+.scheduler-heading > p,
+.task-type > p {
     width: 400px;
     text-align: center;
 }
 
 /* Scheduler Lists */
 
-.scheduler-list{
+.scheduler-list {
     width: 100%;
     margin: 0 auto;
 }
 
-.task-type{
+.task-type {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 60px;
 }
 
-.deleteTaskButton{
+.deleteTaskButton {
     cursor: pointer;
+    width: 400px;
+    border: 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: white;
+    color: black;
 }
 
 /* Scheduler Form */
 
-.scheduler-form{
+.scheduler-form {
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -112,7 +119,8 @@ header{
     height: 60px;
 }
 
-.scheduler-form > input, .scheduler-form > button{
+.scheduler-form > input,
+.scheduler-form > button {
     border: 0;
     font-size: 20px;
     width: 400px;
@@ -121,20 +129,21 @@ header{
     color: black;
 }
 
-::placeholder{
+::placeholder {
     opacity: 1;
     color: gray;
 }
 
-input:focus::placeholder{
+input:focus::placeholder {
     color: transparent;
 }
 
-input:focus{
+input:focus {
     outline: none;
 }
 
-input:hover, button:hover{
+input:hover,
+button:hover {
     cursor: pointer;
 }
 
@@ -142,22 +151,22 @@ input:hover, button:hover{
 
 /* Logger Headings */
 
-.logger-body{
+.logger-body {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-bottom: 50px;
 }
 
-.logger-title{
+.logger-title {
     margin-top: 40px;
 }
 
-.logger-subtitle{
+.logger-subtitle {
     margin-top: 20px;
 }
 
-.logger-heading{
+.logger-heading {
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -167,38 +176,46 @@ input:hover, button:hover{
     margin-top: 50px;
 }
 
-.logger-heading > p, .task-element > p, .task-element > div{
+.logger-heading > p,
+.task-element > p,
+.task-element > div {
     width: 300px;
     text-align: center;
 }
 
 /* Logger Lists */
 
-.logger-list{
+.logger-list {
     width: 100%;
     margin: 0 auto;
 }
 
-.task-element{
+.task-element {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 60px;
 }
 
-.task-element > div{
+.task-element > div {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.deleteTaskElementButton{
+.deleteTaskElementButton {
     cursor: pointer;
-} 
+    width: 300px;
+    border: 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: white;
+    color: black;
+}
 
 /* Logger Form */
 
-.logger-form{
+.logger-form {
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -207,11 +224,15 @@ input:hover, button:hover{
     height: 60px;
 }
 
-.logger-form > div, .logger-form > input, .logger-form > button{
+.logger-form > div,
+.logger-form > input,
+.logger-form > button {
     width: 300px;
 }
 
-.logger-form > div, .logger-form > button, .logger-form input{
+.logger-form > div,
+.logger-form > button,
+.logger-form input {
     border: 0;
     font-size: 20px;
     text-align: center;
@@ -219,12 +240,12 @@ input:hover, button:hover{
     color: black;
 }
 
-.logger-form > div{
+.logger-form > div {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.logger-form > div > input{
+.logger-form > div > input {
     width: 80px;
 }

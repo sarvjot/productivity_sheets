@@ -1,7 +1,7 @@
-let emptyTodoFormData = {
-	type: "",
-	time: "",
-	percentageComplete: "",
-};
+const emptyTodoFormData = {
+    type: '',
+    time: '',
+    percentageComplete: '',
+}
 
-export default emptyTodoFormData;
+export default emptyTodoFormData
