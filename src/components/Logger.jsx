@@ -1,7 +1,6 @@
 import React from 'react'
 import PropType from 'prop-types'
 
-import Navbar from './Navbar'
 import Log from './Log'
 import LoggerForm from './LoggerForm'
 import logSchema from '../Schema/logSchema'
@@ -16,23 +15,18 @@ function Logger({ logs, setLogs }) {
     ))
 
     return (
-        <div>
-            <Navbar />
-            <div className="logger-body">
-                <h1 className="logger-title">Log Today's Tasks</h1>
-                <h3 className="logger-subtitle">
-                    See how you're performing based on your schedule
-                </h3>
-                <div className="logger-heading">
-                    <p>Task Name</p>
-                    <p>Start Time</p>
-                    <p>End Time</p>
-                    <p>Type of Task</p>
-                    <p>Add/Delete Tasks</p>
-                </div>
-                <div className="logger-list">{logElements}</div>
-                <LoggerForm setLogs={setLogs} />
+        <div className="logger main">
+            <h1 className="logger-title">Log Today's Tasks</h1>
+            <h3 className="logger-subtitle">See how you're performing based on your schedule</h3>
+            <div className="logger-heading">
+                <p>Task Name</p>
+                <p>Start Time</p>
+                <p>End Time</p>
+                <p>Type of Task</p>
+                <p>Add/Delete Tasks</p>
             </div>
+            <div className="logger-list">{logElements}</div>
+            <LoggerForm setLogs={setLogs} />
         </div>
     )
 }

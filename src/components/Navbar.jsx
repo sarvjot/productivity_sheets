@@ -1,30 +1,29 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { nanoid } from 'nanoid'
-import CurDate from './CurDate'
 
 export default function Navbar() {
     const location = useLocation()
 
-    const pages = ['', 'Logger', 'Scheduler']
-    const pageElements = pages.map((page) => (
+    const routes = ['', 'analyse', 'logger', 'scheduler', 'records']
+    const pages = ['Home', 'Analyse', 'Log', 'Schedule', 'Records']
+    const pageElements = routes.map((route, index) => (
         <Link
-            to={`/${page}`}
+            to={`/${route}`}
             key={nanoid()}
-            className={`${location.pathname === `/${page}` ? 'selected' : ''}`}
+            className={`nav-element ${location.pathname === `/${route}` ? 'selected-nav' : ''}`}
         >
-            {page === '' ? 'Home' : page}
+            {pages[index]}
         </Link>
     ))
 
-    const home = pageElements[0]
-    const others = pageElements.slice(1)
-
     return (
-        <header>
-            <div className="link-container-1">{home}</div>
-            <div className="link-container-2">{others}</div>
-            <CurDate />
-        </header>
+        <nav>
+            <div className="nav-block nav-left">{pageElements}</div>
+            <div className="nav-block nav-right">
+                <div className="nav-element">{new Date().toDateString()}</div>
+                <div className="nav-element">Login/Logout</div>
+            </div>
+        </nav>
     )
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropType from 'prop-types'
 
-import Navbar from './Navbar'
 import Todo from './Todo'
 
 import SchedulerForm from './SchedulerForm'
@@ -18,13 +17,9 @@ function Scheduler({ logs, todos, setTodos }) {
     ))
 
     return (
-        <div>
-            <Navbar />
-            <div className="scheduler-body">
-                <h1 className="scheduler-title">Categorize Today's Tasks</h1>
-                <h3 className="scheduler-subtitle">
-                    Fill up how much time you want to invest in different types of tasks
-                </h3>
+        <div className="scheduler main">
+            <h1 className="center-vertically heading-1">Categorize Today's Tasks</h1>
+            <div className="scheduler-content">
                 <div className="scheduler-heading">
                     <p>Type of Task</p>
                     <p>Target Time in Minutes</p>

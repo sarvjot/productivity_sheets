@@ -5,7 +5,7 @@ import logSchema from '../Schema/logSchema'
 
 function Log({ log, deleteLog }) {
     return (
-        <div className="task-element">
+        <div className="log">
             <p>{log.name}</p>
             <div>
                 <p>{log.startTime.hour}:</p>
@@ -16,7 +16,7 @@ function Log({ log, deleteLog }) {
                 <p>{log.endTime.minute}</p>
             </div>
             <p>{log.type}</p>
-            <button type="button" className="deleteTaskElementButton" onClick={deleteLog}>
+            <button type="button" className="deleteLogButton" onClick={deleteLog}>
                 Delete
             </button>
         </div>

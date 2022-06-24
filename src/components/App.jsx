@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import Navbar from './Navbar'
 import Home from './Home'
 import Logger from './Logger'
 import Scheduler from './Scheduler'
@@ -36,15 +37,18 @@ export default function App() {
     }, [logs])
 
     return (
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/logger" element={<Logger logs={logs} setLogs={setLogs} />} />
-                <Route
-                    path="/scheduler"
-                    element={<Scheduler logs={logs} todos={todos} setTodos={setTodos} />}
-                />
-            </Routes>
-        </BrowserRouter>
+        <div>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
+                <Navbar />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/logger" element={<Logger logs={logs} setLogs={setLogs} />} />
+                    <Route
+                        path="/scheduler"
+                        element={<Scheduler logs={logs} todos={todos} setTodos={setTodos} />}
+                    />
+                </Routes>
+            </BrowserRouter>
+        </div>
     )
 }

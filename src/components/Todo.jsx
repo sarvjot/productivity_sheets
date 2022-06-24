@@ -5,11 +5,11 @@ import todoSchema from '../Schema/todoSchema'
 
 function Todo({ todo, deleteTodo }) {
     return (
-        <div className="task-type">
+        <div className="todo">
             <p>{todo.type}</p>
             <p>{todo.time}</p>
             <p>{todo.percentageComplete}</p>
-            <button type="button" className="deleteTaskButton" onClick={deleteTodo}>
+            <button type="button" className="deleteTodoButton" onClick={deleteTodo}>
                 Delete
             </button>
         </div>
