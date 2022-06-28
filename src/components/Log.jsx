@@ -5,21 +5,27 @@ import logSchema from '../Schema/logSchema'
 
 function Log({ log, deleteLog }) {
     return (
-        <div className="log">
-            <p>{log.name}</p>
-            <div>
-                <p>{log.startTime.hour}:</p>
-                <p>{log.startTime.minute}</p>
-            </div>
-            <div>
-                <p>{log.endTime.hour}:</p>
-                <p>{log.endTime.minute}</p>
-            </div>
-            <p>{log.type}</p>
-            <button type="button" className="deleteLogButton" onClick={deleteLog}>
-                Delete
-            </button>
-        </div>
+        <tr>
+            <td>{log.type}</td>
+            <td>{log.name}</td>
+            <td>
+                <div className="time">
+                    <p>{log.startTime.hour}:</p>
+                    <p>{log.startTime.minute}</p>
+                </div>
+            </td>
+            <td>
+                <div className="time">
+                    <p>{log.endTime.hour}:</p>
+                    <p>{log.endTime.minute}</p>
+                </div>
+            </td>
+            <td>
+                <button type="button" onClick={deleteLog}>
+                    Delete
+                </button>
+            </td>
+        </tr>
     )
 }
 

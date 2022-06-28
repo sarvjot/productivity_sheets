@@ -14,7 +14,10 @@ import givePercentageComplete from '../utils/givePercentageComplete'
 export default function App() {
     const [todos, setTodos] = React.useState(todoData)
     const [logs, setLogs] = React.useState(logData)
+    const [typeOptions, setTypeOptions] = React.useState([])
 
+    // Can't do without useEffect hook, because setTodos on its own will keep on re-rendering
+    // the component and will loop infinitely
     useEffect(() => {
         setTodos((prevTodos) => {
             const newTodo = []
@@ -36,16 +39,49 @@ export default function App() {
         })
     }, [logs])
 
+    useEffect(() => {
+        setTypeOptions(() => {
+            const options = []
+
+            todos.forEach((todo) => {
+                options.push(todo.type)
+            })
+
+            logs.forEach((log) => {
+                options.push(log.type)
+            })
+
+            return [...new Set(options)]
+        })
+    }, [todos, logs])
+
     return (
         <div>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/logger" element={<Logger logs={logs} setLogs={setLogs} />} />
+                    <Route
+                        path="/logger"
+                        element={
+                            <Logger
+                                logs={logs}
+                                todos={todos}
+                                typeOptions={typeOptions}
+                                setLogs={setLogs}
+                            />
+                        }
+                    />
                     <Route
                         path="/scheduler"
-                        element={<Scheduler logs={logs} todos={todos} setTodos={setTodos} />}
+                        element={
+                            <Scheduler
+                                logs={logs}
+                                todos={todos}
+                                typeOptions={typeOptions}
+                                setTodos={setTodos}
+                            />
+                        }
                     />
                 </Routes>
             </BrowserRouter>

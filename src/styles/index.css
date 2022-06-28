@@ -1,0 +1,64 @@
+/* Global Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Anek Latin', sans-serif;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: black;
+}
+
+.main {
+    min-height: 93vh;
+    background: url(../images/pattern.jpg) center repeat;
+    padding-top: 50px;
+}
+
+.center-vertically {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.heading {
+    width: 800px;
+    height: 80px;
+
+    font-size: 50px;
+    font-weight: 500;
+
+    margin: 0 auto;
+    text-align: center;
+    background: #fe5f55;
+
+    border-radius: 35px;
+    border: 4px solid black;
+}
+
+.sub-heading {
+    width: 500px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 35px;
+    font-weight: 400;
+
+    margin: 0 auto;
+    margin-top: 30px;
+    text-align: center;
+    background: #29e7cd;
+
+    border-radius: 35px;
+    border: 4px solid black;
+}
+
+input,
+select,
+textarea,
+button {
+    font-size: inherit;
+}

@@ -1,18 +1,23 @@
 import React from 'react'
 import PropType from 'prop-types'
 
+import ProgressBar from './ProgressBar'
 import todoSchema from '../Schema/todoSchema'
 
 function Todo({ todo, deleteTodo }) {
     return (
-        <div className="todo">
-            <p>{todo.type}</p>
-            <p>{todo.time}</p>
-            <p>{todo.percentageComplete}</p>
-            <button type="button" className="deleteTodoButton" onClick={deleteTodo}>
-                Delete
-            </button>
-        </div>
+        <tr>
+            <td>{todo.type}</td>
+            <td>{todo.time}</td>
+            <td>
+                <ProgressBar barLevel={todo.percentageComplete} />
+            </td>
+            <td>
+                <button type="button" onClick={deleteTodo}>
+                    Delete
+                </button>
+            </td>
+        </tr>
     )
 }
 

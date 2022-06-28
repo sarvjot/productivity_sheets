@@ -2,11 +2,13 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 
+import '../styles/navbar.css'
+
 export default function Navbar() {
     const location = useLocation()
 
-    const routes = ['', 'analyse', 'logger', 'scheduler', 'records']
-    const pages = ['Home', 'Analyse', 'Log', 'Schedule', 'Records']
+    const routes = ['', 'scheduler', 'logger', 'analyse', 'records']
+    const pages = ['Home', 'Schedule', 'Log', 'Analyse', 'Records']
     const pageElements = routes.map((route, index) => (
         <Link
             to={`/${route}`}

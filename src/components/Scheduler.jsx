@@ -1,34 +1,21 @@
 import React from 'react'
 import PropType from 'prop-types'
 
-import Todo from './Todo'
+import '../styles/scheduler.css'
 
+import Performance from './Performance'
 import SchedulerForm from './SchedulerForm'
+import SchedulerTable from './SchedulerTable'
 import logSchema from '../Schema/logSchema'
 import todoSchema from '../Schema/todoSchema'
 
-function Scheduler({ logs, todos, setTodos }) {
-    function handleDelete(id) {
-        setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
-    }
-
-    const todoElements = todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} deleteTodo={() => handleDelete(todo.id)} />
-    ))
-
+function Scheduler({ logs, todos, typeOptions, setTodos }) {
     return (
-        <div className="scheduler main">
-            <h1 className="center-vertically heading-1">Categorize Today's Tasks</h1>
-            <div className="scheduler-content">
-                <div className="scheduler-heading">
-                    <p>Type of Task</p>
-                    <p>Target Time in Minutes</p>
-                    <p>Percentage of Target Achieved</p>
-                    <p>Add/Delete Tasks</p>
-                </div>
-                <div className="scheduler-list">{todoElements}</div>
-                <SchedulerForm logs={logs} setTodos={setTodos} />
-            </div>
+        <div className="scheduler table-container main">
+            <h1 className="center-vertically heading">Categorize Today's Tasks</h1>
+            <Performance todos={todos} />
+            <SchedulerTable todos={todos} setTodos={setTodos} />
+            <SchedulerForm typeOptions={typeOptions} logs={logs} setTodos={setTodos} />
         </div>
     )
 }
@@ -36,6 +23,7 @@ function Scheduler({ logs, todos, setTodos }) {
 Scheduler.propTypes = {
     logs: PropType.arrayOf(logSchema).isRequired,
     todos: PropType.arrayOf(todoSchema).isRequired,
+    typeOptions: PropType.arrayOf(String).isRequired,
     setTodos: PropType.func.isRequired,
 }
 

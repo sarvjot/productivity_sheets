@@ -1,10 +1,12 @@
 import React from 'react'
 import { nanoid } from 'nanoid'
 
-import analysisImg from '../assets/analysis.jpg'
-import logImg from '../assets/log.jpg'
-import scheduleImg from '../assets/schedule.jpg'
-import recordsImg from '../assets/records.jpg'
+import '../styles/home.css'
+
+import analysisImg from '../images/analysis.jpg'
+import logImg from '../images/log.jpg'
+import scheduleImg from '../images/schedule.jpg'
+import recordsImg from '../images/records.jpg'
 
 export default function Home() {
     const [feature, setFeature] = React.useState(0)
@@ -13,20 +15,20 @@ export default function Home() {
         setFeature(index)
     }
 
-    const images = [analysisImg, logImg, scheduleImg, recordsImg]
+    const images = [scheduleImg, logImg, analysisImg, recordsImg]
 
     const options = [
-        'Analyse Your Performance',
-        'Log today’s Activities',
         'Schedule todos for the day',
+        'Log today’s Activities',
+        'Analyse Your Performance',
         'Have a look at your past records',
     ]
 
     const descriptions = [
-        'Extensive graphical analysis of your performances over the time.',
-        'Log your activities and see how you’re performing.',
-        'Schedule your todos for the day and see how you’re performing.',
-        'Have a look at your past records and see how you’re performing.',
+        'Describe what all you want to accomplish today',
+        'Log what you got done and get a performance score!',
+        'Analyse your past performances to track your progress',
+        'Cherish memories of that day in past when you absolutely nailed it!',
     ]
 
     const featureOptions = options.map((option, index) => (
@@ -56,7 +58,7 @@ export default function Home() {
 
     return (
         <div className="main">
-            <h1 className="heading-1 center-vertically">What A Productive Day!</h1>
+            <h1 className="heading center-vertically">What A Productive Day!</h1>
             <div className="feature-container">
                 <div className="feature-block feature-options">{featureOptions}</div>
                 {featureDescriptions}

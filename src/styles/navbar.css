@@ -1,0 +1,35 @@
+nav {
+    height: 7vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #29e7cd;
+    border-bottom: 4px solid black;
+}
+
+.nav-block {
+    display: flex;
+    justify-content: space-around;
+    font-size: 25px;
+    height: 100%;
+}
+
+.nav-left {
+    width: 40%;
+}
+
+.nav-right {
+    width: 26%;
+}
+
+.nav-element {
+    height: 100%;
+    padding: 10px;
+    border-top: 5px solid #29e7cd;
+}
+
+.selected-nav {
+    border-color: #fe5f55;
+}

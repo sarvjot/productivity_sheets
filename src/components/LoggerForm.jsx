@@ -2,9 +2,11 @@ import React from 'react'
 import { nanoid } from 'nanoid'
 import PropType from 'prop-types'
 
+import '../styles/form.css'
+
 import emptyLogFormData from '../data/emptyLogFormData'
 
-function LoggerForm({ setLogs }) {
+function LoggerForm({ typeOptions, setLogs }) {
     const [formData, setFormData] = React.useState(emptyLogFormData)
 
     function handleChange(event) {
@@ -42,8 +44,23 @@ function LoggerForm({ setLogs }) {
         setFormData(emptyLogFormData)
     }
 
+    const typeOptionElements = typeOptions.map((typeOption) => {
+        return <option key={nanoid()}>{typeOption}</option>
+    })
+
     return (
-        <form className="logger-form" onSubmit={handleSubmit}>
+        <form className="logger-form" onSubmit={handleSubmit} autoComplete="off">
+            <input
+                type="text"
+                placeholder="Task Type"
+                onChange={handleChange}
+                list="type"
+                name="type"
+                value={formData.type}
+            />
+            <datalist type="text" id="type">
+                {typeOptionElements}
+            </datalist>
             <input
                 type="text"
                 placeholder="Add New Task"
@@ -61,7 +78,7 @@ function LoggerForm({ setLogs }) {
                 />
                 <input
                     type="text"
-                    placeholder="Minutes"
+                    placeholder="Minute"
                     name="minute"
                     onChange={handleChange}
                     value={formData.startTime.minute}
@@ -77,19 +94,12 @@ function LoggerForm({ setLogs }) {
                 />
                 <input
                     type="text"
-                    placeholder="Minutes"
+                    placeholder="Minute"
                     name="minute"
                     onChange={handleChange}
                     value={formData.endTime.minute}
                 />
             </div>
-            <input
-                type="text"
-                placeholder="Type of Task"
-                name="type"
-                onChange={handleChange}
-                value={formData.type}
-            />
             <button type="button" onClick={handleSubmit}>
                 Add
             </button>
@@ -98,6 +108,7 @@ function LoggerForm({ setLogs }) {
 }
 
 LoggerForm.propTypes = {
+    typeOptions: PropType.arrayOf(String).isRequired,
     setLogs: PropType.func.isRequired,
 }
 

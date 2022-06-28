@@ -1,0 +1,51 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+    font-size: 20px;
+}
+
+table {
+    font-size: 20px;
+    border-collapse: separate;
+    border-spacing: 4px;
+    background-color: black;
+    border-radius: 35px 35px 0 0;
+    margin-top: 50px;
+    text-align: center;
+    width: 90vw;
+}
+
+thead td {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+thead {
+    background-color: #fe5f55;
+}
+
+tbody {
+    background-color: #29e7cd;
+}
+
+td {
+    height: 60px;
+}
+
+thead td:first-child {
+    border-top-left-radius: 31px;
+}
+
+thead td:last-child {
+    border-top-right-radius: 31px;
+}
+
+table button {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    background-color: inherit;
+}

@@ -1,0 +1,53 @@
+.feature-container {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    height: 550px;
+}
+
+.feature-block {
+    width: 45%;
+    text-align: center;
+    font-size: 30px;
+}
+
+.feature-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.feature-option {
+    height: 105px;
+    font-size: 30px;
+
+    align-items: center;
+
+    background-color: #29e7cd;
+    border-radius: 35px;
+    border: 4px solid black;
+}
+
+.feature-option.selected-option {
+    background-color: #fe5f55;
+}
+
+.feature-description {
+    background-size: cover;
+    box-shadow: inset 0px -200px 200px #000000;
+
+    color: white;
+    padding: 30px;
+    border-radius: 35px;
+    border: 4px solid black;
+
+    display: none;
+}
+
+.selected-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

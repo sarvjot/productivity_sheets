@@ -1,0 +1,4 @@
+.scheduler td {
+    width: calc(100% / 4);
+}
+
