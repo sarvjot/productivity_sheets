@@ -46,3 +46,13 @@
 6. Usage
     - `npm run lint` : Check for errors in src directory
     - `npm run lint:fix` : Check and fix all errors in src directory
+
+> Ideas for About Page
+
+1. What purpose does WAPD serve?
+2. Inspiration for this app
+3. How everyday performance is calculated
+4. Working of the app and usecases
+    - The app is case-sensitive
+    - Perfect Combination of Making Todos and Logging work
+    - Patterns which emerge when one analyses these daily assessments as a whole

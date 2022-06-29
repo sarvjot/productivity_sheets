@@ -1,6 +1,4 @@
-function timeInMinutes(t1, t2) {
-    return (t2.hour - t1.hour) * 60 + (t2.minute - t1.minute)
-}
+import timeInMinutes from './timeInMinutes'
 
 export default function givePercentageComplete(type, time, logs) {
     let percentageComplete = 0

@@ -3,11 +3,14 @@ import { nanoid } from 'nanoid'
 import PropType from 'prop-types'
 
 import '../styles/form.css'
+import findError from '../utils/errorHandlingLoggerForm'
 
 import emptyLogFormData from '../data/emptyLogFormData'
 
 function LoggerForm({ typeOptions, setLogs }) {
     const [formData, setFormData] = React.useState(emptyLogFormData)
+    const gg = 'Great Going!'
+    const [error, setError] = React.useState(gg)
 
     function handleChange(event) {
         if (event.target.name === 'hour' || event.target.name === 'minute') {
@@ -30,18 +33,23 @@ function LoggerForm({ typeOptions, setLogs }) {
     function handleSubmit(event) {
         event.preventDefault()
 
-        setLogs((prevLogs) => [
-            ...prevLogs,
-            {
-                name: formData.name,
-                startTime: formData.startTime,
-                endTime: formData.endTime,
-                type: formData.type,
-                id: nanoid(),
-            },
-        ])
+        const err = findError(formData, gg)
+        setError(err)
 
-        setFormData(emptyLogFormData)
+        if (err === gg) {
+            setLogs((prevLogs) => [
+                ...prevLogs,
+                {
+                    name: formData.name,
+                    startTime: formData.startTime,
+                    endTime: formData.endTime,
+                    type: formData.type,
+                    id: nanoid(),
+                },
+            ])
+
+            setFormData(emptyLogFormData)
+        }
     }
 
     const typeOptionElements = typeOptions.map((typeOption) => {
@@ -49,61 +57,65 @@ function LoggerForm({ typeOptions, setLogs }) {
     })
 
     return (
-        <form className="logger-form" onSubmit={handleSubmit} autoComplete="off">
-            <input
-                type="text"
-                placeholder="Task Type"
-                onChange={handleChange}
-                list="type"
-                name="type"
-                value={formData.type}
-            />
-            <datalist type="text" id="type">
-                {typeOptionElements}
-            </datalist>
-            <input
-                type="text"
-                placeholder="Add New Task"
-                name="name"
-                onChange={handleChange}
-                value={formData.name}
-            />
-            <div name="startTime">
+        <div>
+            <form className="logger-form" onSubmit={handleSubmit} autoComplete="off">
                 <input
                     type="text"
-                    placeholder="Hour"
-                    name="hour"
+                    placeholder="Task Type"
                     onChange={handleChange}
-                    value={formData.startTime.hour}
+                    list="type"
+                    name="type"
+                    value={formData.type}
                 />
+                <datalist type="text" id="type">
+                    {typeOptionElements}
+                </datalist>
                 <input
                     type="text"
-                    placeholder="Minute"
-                    name="minute"
+                    placeholder="Add New Task"
+                    name="name"
                     onChange={handleChange}
-                    value={formData.startTime.minute}
+                    value={formData.name}
                 />
-            </div>
-            <div name="endTime">
-                <input
-                    type="text"
-                    placeholder="Hour"
-                    name="hour"
-                    onChange={handleChange}
-                    value={formData.endTime.hour}
-                />
-                <input
-                    type="text"
-                    placeholder="Minute"
-                    name="minute"
-                    onChange={handleChange}
-                    value={formData.endTime.minute}
-                />
-            </div>
-            <button type="button" onClick={handleSubmit}>
-                Add
-            </button>
-        </form>
+                <div name="startTime">
+                    <input
+                        type="text"
+                        placeholder="Hour"
+                        name="hour"
+                        onChange={handleChange}
+                        value={formData.startTime.hour}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Minute"
+                        name="minute"
+                        onChange={handleChange}
+                        value={formData.startTime.minute}
+                    />
+                </div>
+                <div name="endTime">
+                    <input
+                        type="text"
+                        placeholder="Hour"
+                        name="hour"
+                        onChange={handleChange}
+                        value={formData.endTime.hour}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Minute"
+                        name="minute"
+                        onChange={handleChange}
+                        value={formData.endTime.minute}
+                    />
+                </div>
+                <button type="button" onClick={handleSubmit}>
+                    Add
+                </button>
+            </form>
+
+            <div className={`error-box ${error === gg ? 'no-error' : 'error'}`}>{error}</div>
+        </div>
     )
 }
 

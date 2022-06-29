@@ -9,13 +9,13 @@ import SchedulerTable from './SchedulerTable'
 import logSchema from '../Schema/logSchema'
 import todoSchema from '../Schema/todoSchema'
 
-function Scheduler({ logs, todos, typeOptions, setTodos }) {
+function Scheduler({ logs, todos, setTodos }) {
     return (
         <div className="scheduler table-container main">
             <h1 className="center-vertically heading">Categorize Today's Tasks</h1>
             <Performance todos={todos} />
             <SchedulerTable todos={todos} setTodos={setTodos} />
-            <SchedulerForm typeOptions={typeOptions} logs={logs} setTodos={setTodos} />
+            <SchedulerForm todos={todos} logs={logs} setTodos={setTodos} />
         </div>
     )
 }
@@ -23,7 +23,6 @@ function Scheduler({ logs, todos, typeOptions, setTodos }) {
 Scheduler.propTypes = {
     logs: PropType.arrayOf(logSchema).isRequired,
     todos: PropType.arrayOf(todoSchema).isRequired,
-    typeOptions: PropType.arrayOf(String).isRequired,
     setTodos: PropType.func.isRequired,
 }
 

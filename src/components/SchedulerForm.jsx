@@ -5,11 +5,15 @@ import PropType from 'prop-types'
 import '../styles/form.css'
 
 import logSchema from '../Schema/logSchema'
+import todoSchema from '../Schema/todoSchema'
 import emptyTodoFormData from '../data/emptyTodoFormData'
 import givePercentageComplete from '../utils/givePercentageComplete'
+import findError from '../utils/errorHandlingSchedulerForm'
 
-function SchedulerForm({ logs, typeOptions, setTodos }) {
+function SchedulerForm({ logs, todos, setTodos }) {
     const [formData, setFormData] = React.useState(emptyTodoFormData)
+    const gg = 'Great Going!'
+    const [error, setError] = React.useState(gg)
 
     function handleChange(event) {
         setFormData((prevFormData) => ({
@@ -21,65 +25,69 @@ function SchedulerForm({ logs, typeOptions, setTodos }) {
     function handleSubmit(event) {
         event.preventDefault()
 
-        setTodos((prevTodos) => {
-            const percentageComplete = givePercentageComplete(formData.type, formData.time, logs)
+        const err = findError(formData, todos, gg)
+        setError(err)
 
-            return [
-                ...prevTodos,
-                {
-                    type: formData.type,
-                    time: formData.time,
-                    percentageComplete,
-                    id: nanoid(),
-                },
-            ]
-        })
+        if (err === gg) {
+            setTodos((prevTodos) => {
+                const percentageComplete = givePercentageComplete(
+                    formData.type,
+                    formData.time,
+                    logs
+                )
 
-        setFormData(emptyTodoFormData)
+                return [
+                    ...prevTodos,
+                    {
+                        type: formData.type,
+                        time: formData.time,
+                        percentageComplete,
+                        id: nanoid(),
+                    },
+                ]
+            })
+
+            setFormData(emptyTodoFormData)
+        }
     }
 
-    const typeOptionElements = typeOptions.map((typeOption) => {
-        return <option key={nanoid()}>{typeOption}</option>
-    })
-
     return (
-        <form className="scheduler-form" onSubmit={(e) => handleSubmit(e)} autoComplete="off">
-            <input
-                type="text"
-                placeholder="Add New Task"
-                onChange={handleChange}
-                list="type"
-                name="type"
-                value={formData.type}
-            />
-            <datalist type="text" id="type">
-                {typeOptionElements}
-            </datalist>
-            <input
-                type="text"
-                placeholder="Enter Time"
-                onChange={handleChange}
-                name="time"
-                value={formData.time}
-            />
-            <input
-                className="not-applicable"
-                type="text"
-                placeholder="Not Applicable"
-                onChange={handleChange}
-                name="percentageComplete"
-                disabled="disabled"
-            />
-            <button type="button" onClick={handleSubmit}>
-                Add
-            </button>
-        </form>
+        <div>
+            <form className="scheduler-form" onSubmit={(e) => handleSubmit(e)} autoComplete="off">
+                <input
+                    type="text"
+                    placeholder="Add New Task"
+                    onChange={handleChange}
+                    name="type"
+                    value={formData.type}
+                />
+                <input
+                    type="text"
+                    placeholder="Enter Time"
+                    onChange={handleChange}
+                    name="time"
+                    value={formData.time}
+                />
+                <input
+                    className="not-applicable"
+                    type="text"
+                    placeholder="Not Applicable"
+                    onChange={handleChange}
+                    name="percentageComplete"
+                    disabled="disabled"
+                />
+                <button type="button" onClick={handleSubmit}>
+                    Add
+                </button>
+            </form>
+            <div className={`error-box ${error === gg ? 'no-error' : 'error'}`}>{error}</div>
+        </div>
     )
 }
 
 SchedulerForm.propTypes = {
     logs: PropType.arrayOf(logSchema).isRequired,
-    typeOptions: PropType.arrayOf(String).isRequired,
+    todos: PropType.arrayOf(todoSchema).isRequired,
     setTodos: PropType.func.isRequired,
 }
 

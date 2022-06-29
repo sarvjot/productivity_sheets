@@ -74,14 +74,7 @@ export default function App() {
                     />
                     <Route
                         path="/scheduler"
-                        element={
-                            <Scheduler
-                                logs={logs}
-                                todos={todos}
-                                typeOptions={typeOptions}
-                                setTodos={setTodos}
-                            />
-                        }
+                        element={<Scheduler logs={logs} todos={todos} setTodos={setTodos} />}
                     />
                 </Routes>
             </BrowserRouter>
