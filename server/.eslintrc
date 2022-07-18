@@ -1,0 +1,15 @@
+{
+    "extends": ["airbnb", "prettier", "plugin:prettier/recommended"],
+    "plugins": ["prettier"],
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "rules": {
+        "no-console": "off",
+        "import/extensions": ["error", "ignorePackages"],
+        "no-underscore-dangle": 0,
+        "func-names": 0,
+        "semi": ["error", "always"]
+    }
+}
