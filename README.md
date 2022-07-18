@@ -1,4 +1,4 @@
-# [Productivity Sheets](https://www.whataproductiveday.study/)
+# [What A Productive Day](https://www.whataproductiveday.study/)
 
 ## Journal potraying different stages of App's development
 
