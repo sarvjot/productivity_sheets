@@ -35,7 +35,12 @@ export const handleSignup = async (req, res) => {
     try {
         const user = await User.create({ userName, email, password });
         const token = createToken(user._id);
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: maxAge * 1000,
+            sameSite: "none",
+            secure: true,
+        });
         res.status(201).json({ user: userName });
     } catch (err) {
         res.status(400).json(handleErrors(err));
@@ -48,7 +53,12 @@ export const handleLogin = async (req, res) => {
     try {
         const user = await User.login(email, password);
         const token = createToken(user._id);
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: maxAge * 1000,
+            sameSite: "none",
+            secure: true,
+        });
         res.status(201).json({ user: user.userName });
     } catch (err) {
         res.status(400).json(handleErrors(err));
