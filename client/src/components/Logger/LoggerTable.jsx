@@ -1,18 +1,19 @@
 import axios from "axios";
 import React from "react";
 
+import Log from "./Log.jsx";
+import { getLogsFromServer } from "../../api.js";
+
 import "../../styles/table.css";
 
-import Log from "./Log.jsx";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-const baseURL = "http://localhost:5000";
-
-export default function LoggerTable({ logs, getLogsFromServer }) {
+export default function LoggerTable({ user, logs, setLogs }) {
     function handleDelete(id) {
         axios
             .delete(`${baseURL}/api/logs/${id}`)
             .then(() => {
-                getLogsFromServer();
+                getLogsFromServer(user.id, setLogs);
             })
             .catch((e) => console.log(e));
     }

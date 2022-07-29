@@ -1,10 +1,9 @@
 import express from "express";
-import { handleGet, handlePost, handleDelete } from "../controllers/todoController.js";
+import { handleGet, handlePost } from "../controllers/perfController.js";
 
 const router = express.Router();
 
 router.get("/:id/:date", handleGet);
 router.post("/", handlePost);
-router.delete("/:id", handleDelete);
 
 export default router;

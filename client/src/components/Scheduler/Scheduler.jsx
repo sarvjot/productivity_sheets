@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import "../../styles/scheduler.css";
 
@@ -6,8 +6,16 @@ import Performance from "../Performance.jsx";
 import SchedulerForm from "./SchedulerForm.jsx";
 import SchedulerTable from "./SchedulerTable.jsx";
 
-export default function Scheduler({ logs, todos, getTodosFromServer }) {
-    const [todoOptions, setTodoOptions] = React.useState([]);
+export default function Scheduler({
+    user,
+    logs,
+    todos,
+    month,
+    setTodos,
+    setAnalytics,
+    setTodosFetched,
+}) {
+    const [todoOptions, setTodoOptions] = useState([]);
 
     useEffect(() => {
         setTodoOptions(() => {
@@ -28,12 +36,18 @@ export default function Scheduler({ logs, todos, getTodosFromServer }) {
     return (
         <div className="scheduler table-container main">
             <h1 className="center-vertically heading">Categorize Today's Tasks</h1>
-            <Performance todos={todos} />
-            <SchedulerTable todos={todos} getTodosFromServer={getTodosFromServer} />
-            <SchedulerForm
-                todoOptions={todoOptions}
+            <Performance user={user} todos={todos} month={month} setAnalytics={setAnalytics} />
+            <SchedulerTable
+                user={user}
                 todos={todos}
-                getTodosFromServer={getTodosFromServer}
+                setTodos={setTodos}
+                setTodosFetched={setTodosFetched}
+            />
+            <SchedulerForm
+                user={user}
+                setTodos={setTodos}
+                setTodosFetched={setTodosFetched}
+                todoOptions={todoOptions}
             />
         </div>
     );

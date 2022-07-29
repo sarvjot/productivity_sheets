@@ -3,7 +3,7 @@ import { handleGet, handlePost, handleDelete } from "../controllers/logControlle
 
 const router = express.Router();
 
-router.get("/", handleGet);
+router.get("/:id/:date", handleGet);
 router.post("/", handlePost);
 router.delete("/:id", handleDelete);
 

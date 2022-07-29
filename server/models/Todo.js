@@ -27,12 +27,16 @@ const TodoSchema = new Schema({
             "Time has to be a positive integer in range less than 1440",
         ],
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
     creationTime: {
         type: Date,
     },
 });
 
-TodoSchema.index({ creationTime: 1, type: 1 }, { unique: true });
+TodoSchema.index({ author: 1, creationTime: 1, type: 1 }, { unique: true });
 
 TodoSchema.pre("save", function (next) {
     const x = new Date();

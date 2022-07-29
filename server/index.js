@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import routes from "./routes/index.js";
 
@@ -17,8 +18,15 @@ mongoose
 
 mongoose.Promise = global.Promise;
 
-app.use(cors());
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+    })
+);
+
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api", routes);
 
 app.use((err, req, res, next) => {

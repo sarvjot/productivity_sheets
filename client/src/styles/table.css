@@ -53,3 +53,17 @@ table button {
 table button:focus {
     outline: none;
 }
+
+/* Records Table */
+
+.records-table {
+    border-radius: 35px;
+}
+
+.records-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 31px;
+}
+
+.records-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 31px;
+}

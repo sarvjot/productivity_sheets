@@ -1,4 +1,4 @@
-import Todo from "../models/todoSchema.js";
+import { Todo } from "../models/index.js";
 
 function handleErrors(err) {
     if (err.code !== undefined) {
@@ -13,13 +13,20 @@ function handleErrors(err) {
 }
 
 const handleGet = (req, res, next) => {
-    Todo.find({})
+    const { date, id } = req.params;
+
+    Todo.find({ author: id, creationTime: date })
         .then((data) => res.json(data))
         .catch(next);
 };
 
 const handlePost = (req, res) => {
-    Todo.create(req.body)
+    const { type, time, userId } = req.body;
+    Todo.create({
+        type,
+        time,
+        author: userId,
+    })
         .then((data) => res.json(data))
         .catch((err) => {
             res.status(400).json(handleErrors(err));

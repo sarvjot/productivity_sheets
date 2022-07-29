@@ -1,135 +1,119 @@
-import axios from "axios";
-import React, { useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./Home.jsx";
+import Login from "./Login.jsx";
+import Signup from "./Signup.jsx";
 import Navbar from "./Navbar.jsx";
 import Logger from "./Logger/Logger.jsx";
+import Records from "./Records/Records.jsx";
+import Analyser from "./Analyser/Analyser.jsx";
+import PrivateRoutes from "./PrivateRoutes.jsx";
 import Scheduler from "./Scheduler/Scheduler.jsx";
 
-const baseURL = "http://localhost:5000";
-
-function timeInMinutes(t1, t2) {
-    return (t2.hour - t1.hour) * 60 + (t2.minute - t1.minute);
-}
-
-function givePercentageComplete(type, time, logs) {
-    let percentageComplete = 0;
-
-    logs.forEach((log) => {
-        if (log.type === type) {
-            percentageComplete += timeInMinutes(log.startTime, log.endTime);
-        }
-    });
-
-    percentageComplete = (percentageComplete / time) * 100;
-    percentageComplete = Math.round(Math.min(100, percentageComplete));
-
-    return percentageComplete.toString();
-}
+import { checkUser, setTodoPercentageComplete } from "../api.js";
 
 export default function App() {
-    const [todos, setTodos] = React.useState([]);
-    const [logs, setLogs] = React.useState([]);
-    const [todosUpdated, setTodosUpdated] = React.useState(0);
+    // states and variables
 
-    const getTodosFromServer = () => {
-        axios
-            .get(`${baseURL}/api/todos`)
-            .then((res) => {
-                const todosFromServer = [];
-                res.data.forEach((todoFromServer) => {
-                    todosFromServer.push({
-                        type: todoFromServer.type,
-                        time: todoFromServer.time,
-                        percentageComplete: "0",
-                        // eslint-disable-next-line no-underscore-dangle
-                        id: todoFromServer._id,
-                    });
-                });
-                setTodos(todosFromServer);
-            })
-            .then(() => {
-                setTodosUpdated((prevTodosUpdated) => prevTodosUpdated + 1);
-            })
-            .catch((e) => console.log(e));
-    };
+    const [user, setUser] = useState(null);
+    const [userName, setUserName] = useState(JSON.parse(localStorage.getItem("userName")) || null);
+    const [logs, setLogs] = useState([]);
+    const [todos, setTodos] = useState([]);
+    const [todosFetched, setTodosFetched] = useState(0);
+    const [analytics, setAnalytics] = useState(JSON.parse(localStorage.getItem("analytics")) || []);
+    const [month, setMonth] = useState(
+        localStorage.getItem("month") ? new Date(localStorage.getItem("month")) : new Date()
+    );
 
-    const getLogsFromServer = () => {
-        axios
-            .get(`${baseURL}/api/logs`)
-            .then((res) => {
-                const logsFromServer = [];
-                res.data.forEach((logFromServer) => {
-                    logsFromServer.push({
-                        type: logFromServer.type,
-                        name: logFromServer.name,
-                        startTime: logFromServer.startTime,
-                        endTime: logFromServer.endTime,
-                        // eslint-disable-next-line no-underscore-dangle
-                        id: logFromServer._id,
-                    });
-                });
-                setLogs(logsFromServer);
-            })
-            .catch((e) => console.log(e));
-    };
-
-    const setTodoPercentageComplete = useCallback(() => {
-        setTodos((prevTodos) => {
-            const newTodos = [];
-
-            prevTodos.forEach((prevTodo) => {
-                const percentageComplete = givePercentageComplete(
-                    prevTodo.type,
-                    prevTodo.time,
-                    logs
-                );
-
-                newTodos.push({
-                    ...prevTodo,
-                    percentageComplete,
-                });
-            });
-
-            return newTodos;
-        });
-    }, [logs]);
+    // hooks
 
     useEffect(() => {
-        getTodosFromServer();
-        getLogsFromServer();
-    }, []);
+        localStorage.setItem("userName", JSON.stringify(userName));
+    }, [userName]);
 
     useEffect(() => {
-        setTodoPercentageComplete();
-    }, [setTodoPercentageComplete, todosUpdated]);
+        localStorage.setItem("analytics", JSON.stringify(analytics));
+    }, [analytics]);
+
+    useEffect(() => {
+        localStorage.setItem("month", month.toString());
+    }, [month]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => checkUser(setUser, setUserName), []);
+
+    useEffect(() => {
+        setTodoPercentageComplete(logs, setTodos);
+    }, [logs, todosFetched]);
+
+    // return component
 
     return (
         <div>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <Navbar />
+                <Navbar user={userName} setUser={setUser} setUserName={setUserName} />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route
-                        path="/logger"
                         element={
-                            <Logger
-                                logs={logs}
-                                todos={todos}
-                                getLogsFromServer={getLogsFromServer}
+                            <PrivateRoutes
+                                user={user}
+                                userName={userName}
+                                setLogs={setLogs}
+                                setTodos={setTodos}
+                                setTodosFetched={setTodosFetched}
                             />
                         }
+                    >
+                        <Route
+                            path="/logger"
+                            element={
+                                <Logger
+                                    user={user}
+                                    logs={logs}
+                                    todos={todos}
+                                    month={month}
+                                    setLogs={setLogs}
+                                    setAnalytics={setAnalytics}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/scheduler"
+                            element={
+                                <Scheduler
+                                    user={user}
+                                    logs={logs}
+                                    todos={todos}
+                                    month={month}
+                                    setTodos={setTodos}
+                                    setAnalytics={setAnalytics}
+                                    setTodosFetched={setTodosFetched}
+                                />
+                            }
+                        />
+                        <Route path="/records" element={<Records user={user} />} />
+                        <Route
+                            path="/analyse"
+                            element={
+                                <Analyser
+                                    user={user}
+                                    month={month}
+                                    analytics={analytics}
+                                    setMonth={setMonth}
+                                    setAnalytics={setAnalytics}
+                                />
+                            }
+                        />
+                    </Route>
+                    <Route
+                        path="/login"
+                        element={<Login setUser={setUser} setUserName={setUserName} />}
                     />
                     <Route
-                        path="/scheduler"
-                        element={
-                            <Scheduler
-                                logs={logs}
-                                todos={todos}
-                                getTodosFromServer={getTodosFromServer}
-                            />
-                        }
+                        path="/signup"
+                        element={<Signup setUser={setUser} setUserName={setUserName} />}
                     />
                 </Routes>
             </BrowserRouter>

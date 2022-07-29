@@ -4,15 +4,16 @@ import React from "react";
 import "../../styles/table.css";
 
 import Todo from "./Todo.jsx";
+import { getTodosFromServer } from "../../api.js";
 
-const baseURL = "http://localhost:5000";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-export default function SchedulerTable({ getTodosFromServer, todos }) {
+export default function SchedulerTable({ user, todos, setTodos, setTodosFetched }) {
     function handleDelete(id) {
         axios
             .delete(`${baseURL}/api/todos/${id}`)
             .then(() => {
-                getTodosFromServer();
+                getTodosFromServer(user.id, setTodos, setTodosFetched);
             })
             .catch((e) => console.log(e));
     }

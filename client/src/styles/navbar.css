@@ -21,12 +21,14 @@ nav {
 }
 
 .nav-right {
-    width: 26%;
+    width: 18%;
 }
 
 .nav-element {
     height: 100%;
     padding: 10px;
+    border: none;
+    background: transparent;
     border-top: 5px solid #29e7cd;
 }
 

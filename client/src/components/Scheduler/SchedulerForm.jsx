@@ -1,16 +1,22 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
+
+import { getTodosFromServer } from "../../api.js";
 
 import "../../styles/form.css";
 
-import emptyTodoFormData from "../../placeholderData/emptyTodoFormData.js";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-const baseURL = "http://localhost:5000";
+const emptyFormData = {
+    type: "",
+    time: "",
+    percentageComplete: "",
+};
 
-export default function SchedulerForm({ todoOptions, getTodosFromServer }) {
-    const [error, setError] = React.useState(null);
-    const [formData, setFormData] = React.useState(emptyTodoFormData);
+export default function SchedulerForm({ user, setTodos, setTodosFetched, todoOptions }) {
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState(emptyFormData);
 
     function handleChange(event) {
         setFormData((prevFormData) => ({
@@ -26,10 +32,11 @@ export default function SchedulerForm({ todoOptions, getTodosFromServer }) {
             .post(`${baseURL}/api/todos`, {
                 type: formData.type,
                 time: formData.time,
+                userId: user.id,
             })
             .then(() => {
-                getTodosFromServer();
-                setFormData(emptyTodoFormData);
+                getTodosFromServer(user.id, setTodos, setTodosFetched);
+                setFormData(emptyFormData);
                 setError(null);
             })
             .catch((err) => {
@@ -43,7 +50,11 @@ export default function SchedulerForm({ todoOptions, getTodosFromServer }) {
 
     return (
         <div>
-            <form className="scheduler-form" onSubmit={(e) => handleSubmit(e)} autoComplete="off">
+            <form
+                className="content-form scheduler-form"
+                onSubmit={(e) => handleSubmit(e)}
+                autoComplete="off"
+            >
                 <input
                     type="text"
                     placeholder="Add New Task"

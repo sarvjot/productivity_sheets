@@ -1,16 +1,29 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
+
+import { getLogsFromServer } from "../../api.js";
 
 import "../../styles/form.css";
 
-import emptyLogFormData from "../../placeholderData/emptyLogFormData.js";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-const baseURL = "http://localhost:5000";
+const emptyFormData = {
+    name: "",
+    startTime: {
+        hour: "",
+        minute: "",
+    },
+    endTime: {
+        hour: "",
+        minute: "",
+    },
+    type: "",
+};
 
-export default function LoggerForm({ logOptions, getLogsFromServer }) {
-    const [error, setError] = React.useState(null);
-    const [formData, setFormData] = React.useState(emptyLogFormData);
+export default function LoggerForm({ logOptions, user, setLogs }) {
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState(emptyFormData);
 
     function handleChange(event) {
         if (event.target.name === "hour" || event.target.name === "minute") {
@@ -39,10 +52,11 @@ export default function LoggerForm({ logOptions, getLogsFromServer }) {
                 name: formData.name,
                 startTime: formData.startTime,
                 endTime: formData.endTime,
+                userId: user.id,
             })
             .then(() => {
-                getLogsFromServer();
-                setFormData(emptyLogFormData);
+                getLogsFromServer(user.id, setLogs);
+                setFormData(emptyFormData);
                 setError(null);
             })
             .catch((err) => {
@@ -56,7 +70,7 @@ export default function LoggerForm({ logOptions, getLogsFromServer }) {
 
     return (
         <div>
-            <form className="logger-form" onSubmit={handleSubmit} autoComplete="off">
+            <form className="content-form logger-form" onSubmit={handleSubmit} autoComplete="off">
                 <input
                     type="text"
                     placeholder="Task Type"

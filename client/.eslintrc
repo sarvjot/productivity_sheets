@@ -15,6 +15,7 @@
     "rules": {
         "react/no-unescaped-entities": "off",
         "react/prop-types": 0,
+        "react/jsx-props-no-spreading": 0,
         "import/extensions": ["error", "ignorePackages"],
         "no-console": "off",
         "semi": ["error", "always"]

@@ -1,4 +1,4 @@
-import Log from "../models/logSchema.js";
+import { Log } from "../models/index.js";
 
 function handleErrors(err) {
     if (err.errors !== undefined) {
@@ -9,13 +9,23 @@ function handleErrors(err) {
 }
 
 const handleGet = (req, res, next) => {
-    Log.find({})
+    const { date, id } = req.params;
+
+    Log.find({ author: id, creationTime: date })
         .then((data) => res.json(data))
         .catch(next);
 };
 
 const handlePost = (req, res) => {
-    Log.create(req.body)
+    const { type, name, startTime, endTime, userId } = req.body;
+
+    Log.create({
+        type,
+        name,
+        startTime,
+        endTime,
+        author: userId,
+    })
         .then((data) => res.json(data))
         .catch((err) => {
             res.status(400).json(handleErrors(err));

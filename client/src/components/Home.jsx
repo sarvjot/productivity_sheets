@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
 
 import "../styles/home.css";
@@ -9,26 +9,26 @@ import scheduleImg from "../images/schedule.jpg";
 import analysisImg from "../images/analysis.jpg";
 
 export default function Home() {
-    const [feature, setFeature] = React.useState(0);
+    const [feature, setFeature] = useState(0);
 
     function handleClick(index) {
         setFeature(index);
     }
 
-    const images = [scheduleImg, logImg, analysisImg, recordsImg];
+    const images = [scheduleImg, logImg, recordsImg, analysisImg];
 
     const options = [
         "Schedule todos for the day",
         "Log today’s Activities",
-        "Analyse Your Performance",
         "Have a look at your past records",
+        "Analyse Your Performance",
     ];
 
     const descriptions = [
         "Describe what all you want to accomplish today",
         "Log what you got done and get a performance score!",
-        "Analyse your past performances to track your progress",
         "Cherish memories of that day in past when you absolutely nailed it!",
+        "Analyse your past performances to track your progress",
     ];
 
     const featureOptions = options.map((option, index) => (

@@ -57,10 +57,16 @@ const LogSchema = new Schema({
             validate: [isMinute, "End minute has to be a non-negative integer less than 60"],
         },
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
     creationTime: {
         type: Date,
     },
 });
+
+LogSchema.index({ author: 1, creationTime: 1 });
 
 LogSchema.pre("validate", function (next) {
     const t1 = this.startTime;
