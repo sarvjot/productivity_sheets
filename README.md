@@ -56,4 +56,4 @@
     - The app is case-sensitive
     - Perfect Combination of Making Todos and Logging work
     - Patterns which emerge when one analyses these daily assessments as a whole
-5. A demo video
+5. A demo video 
