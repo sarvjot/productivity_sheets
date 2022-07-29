@@ -1,1 +1,25 @@
-{}
+{
+	"name": "whataproductiveday",
+	"version": "1.0.0",
+	"description": "## Journal potraying different stages of App's development",
+	"main": "index.js",
+	"scripts": {
+		"client": "npm start --prefix ./client",
+		"server": "npm start --prefix ./server",
+		"dev": "concurrently 'npm run server' 'npm run client'"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sarvjot/whataproductiveday.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/sarvjot/whataproductiveday/issues"
+	},
+	"homepage": "https://github.com/sarvjot/whataproductiveday#readme",
+	"devDependencies": {
+		"concurrently": "^7.3.0"
+	}
+}

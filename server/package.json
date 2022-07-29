@@ -5,9 +5,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "server": "nodemon index.js",
-        "client": "npm start --prefix ../client",
-        "dev": "concurrently 'npm run server' 'npm run client'",
+        "start": "nodemon index.js",
         "lint": "npx eslint './**/*.js'",
         "lint:fix": "npm run lint -- --fix"
     },
@@ -26,7 +24,6 @@
         "validator": "^13.7.0"
     },
     "devDependencies": {
-        "concurrently": "^7.2.2",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-import": "^2.26.0",
