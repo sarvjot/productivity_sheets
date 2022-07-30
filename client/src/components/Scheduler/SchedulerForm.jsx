@@ -29,10 +29,16 @@ export default function SchedulerForm({ setTodos, setServerFetched, todoOptions 
         event.preventDefault();
 
         axios
-            .post(`${baseURL}/api/todos`, {
-                type: formData.type,
-                time: formData.time,
-            })
+            .post(
+                `${baseURL}/api/todos`,
+                {
+                    type: formData.type,
+                    time: formData.time,
+                },
+                {
+                    withCredentials: true,
+                }
+            )
             .then(() => {
                 getTodosFromServer(setTodos, setServerFetched);
                 setFormData(emptyFormData);

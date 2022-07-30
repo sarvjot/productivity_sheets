@@ -58,7 +58,11 @@ export const handleLogin = async (req, res) => {
 
 export const handleLogout = (req, res) => {
     try {
-        res.clearCookie("jwt");
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+        });
         res.status(200).send("Cookie Deleted");
     } catch (err) {
         res.status(400).send(err);
@@ -76,7 +80,11 @@ export const handleCheck = async (req, res) => {
                 } else {
                     const user = await User.findUser(decodedToken.id);
                     if (user === null) {
-                        res.clearCookie("jwt");
+                        res.clearCookie("jwt", {
+                            httpOnly: true,
+                            sameSite: "none",
+                            secure: true,
+                        });
                         res.status(400).send("Expired Cookie Deleted!");
                     } else {
                         res.status(200).json({

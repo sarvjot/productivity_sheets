@@ -11,7 +11,9 @@ const baseURL = process.env.REACT_APP_API_BASE_URL;
 export default function SchedulerTable({ todos, setTodos, setServerFetched }) {
     function handleDelete(id) {
         axios
-            .delete(`${baseURL}/api/todos/${id}`)
+            .delete(`${baseURL}/api/todos/${id}`, {
+                withCredentials: true,
+            })
             .then(() => {
                 getTodosFromServer(setTodos, setServerFetched);
             })

@@ -47,12 +47,18 @@ export default function LoggerForm({ setLogs, setServerFetched, logOptions }) {
         event.preventDefault();
 
         axios
-            .post(`${baseURL}/api/logs`, {
-                type: formData.type,
-                name: formData.name,
-                startTime: formData.startTime,
-                endTime: formData.endTime,
-            })
+            .post(
+                `${baseURL}/api/logs`,
+                {
+                    type: formData.type,
+                    name: formData.name,
+                    startTime: formData.startTime,
+                    endTime: formData.endTime,
+                },
+                {
+                    withCredentials: true,
+                }
+            )
             .then(() => {
                 getLogsFromServer(setLogs, setServerFetched);
                 setFormData(emptyFormData);

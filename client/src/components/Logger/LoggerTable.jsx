@@ -11,7 +11,9 @@ const baseURL = process.env.REACT_APP_API_BASE_URL;
 export default function LoggerTable({ logs, setLogs, setServerFetched }) {
     function handleDelete(id) {
         axios
-            .delete(`${baseURL}/api/logs/${id}`)
+            .delete(`${baseURL}/api/logs/${id}`, {
+                withCredentials: true,
+            })
             .then(() => {
                 getLogsFromServer(setLogs, setServerFetched);
             })

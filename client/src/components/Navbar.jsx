@@ -27,7 +27,9 @@ export default function Navbar({ userName, setUserName }) {
 
     function handleLogout() {
         axios
-            .post(`${baseURL}/api/auth/logout`)
+            .post(`${baseURL}/api/auth/logout`, {
+                withCredentials: true,
+            })
             .then(() => {
                 checkUser(setUserName);
             })
