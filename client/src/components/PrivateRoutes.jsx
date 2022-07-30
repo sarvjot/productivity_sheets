@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-import { getTodosFromServer, getLogsFromServer } from "../api.js";
+import { getBothTodosAndLogsFromServer } from "../api.js";
 
-export default function PrivateRoutes({ user, userName, setTodos, setLogs, setTodosFetched }) {
+export default function PrivateRoutes({ userName, setTodos, setLogs, setServerFetched }) {
     useEffect(() => {
-        if (user) {
-            getTodosFromServer(user.id, setTodos, setTodosFetched);
-            getLogsFromServer(user.id, setLogs);
+        if (userName) {
+            getBothTodosAndLogsFromServer(setTodos, setLogs, setServerFetched);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
+    }, [userName]);
 
     return userName !== null ? <Outlet /> : <Navigate to="/login" />;
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RecordsForm from "./RecordsForm.jsx";
 import RecordsTable from "./RecordsTable.jsx";
 
-export default function Records({ user }) {
+export default function Records() {
     const [records, setRecords] = useState(JSON.parse(localStorage.getItem("records")) || []);
 
     useEffect(() => {
@@ -12,7 +12,7 @@ export default function Records({ user }) {
     return (
         <div className="main table-container">
             <h1 className="center-vertically heading">Glance at Past Logs</h1>
-            <RecordsForm setRecords={setRecords} user={user} />
+            <RecordsForm setRecords={setRecords} />
             <RecordsTable records={records} />
         </div>
     );

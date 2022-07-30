@@ -8,12 +8,12 @@ import "../../styles/table.css";
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-export default function LoggerTable({ user, logs, setLogs }) {
+export default function LoggerTable({ logs, setLogs, setServerFetched }) {
     function handleDelete(id) {
         axios
             .delete(`${baseURL}/api/logs/${id}`)
             .then(() => {
-                getLogsFromServer(user.id, setLogs);
+                getLogsFromServer(setLogs, setServerFetched);
             })
             .catch((e) => console.log(e));
     }

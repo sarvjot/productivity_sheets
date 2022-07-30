@@ -6,7 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { getLogsFromServer as getRecordsFromServer } from "../../api.js";
 
-export default function RecordsForm({ setRecords, user }) {
+export default function RecordsForm({ setRecords }) {
     const [day, setDay] = useState(
         localStorage.getItem("day") ? new Date(localStorage.getItem("day")) : new Date()
     );
@@ -16,17 +16,9 @@ export default function RecordsForm({ setRecords, user }) {
     }, [day]);
 
     useEffect(() => {
-        if (user) {
-            getRecordsFromServer(user.id, setRecords, day);
-        }
+        getRecordsFromServer(setRecords, null, day);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        getRecordsFromServer(user.id, setRecords, day);
-    };
+    }, [day]);
 
     return (
         <form className="records-form">
@@ -71,9 +63,6 @@ export default function RecordsForm({ setRecords, user }) {
                     )}
                 />
             </LocalizationProvider>
-            <button type="button" onClick={handleSubmit}>
-                Submit
-            </button>
         </form>
     );
 }

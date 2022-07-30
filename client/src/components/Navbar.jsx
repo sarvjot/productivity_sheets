@@ -9,11 +9,12 @@ import "../styles/navbar.css";
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-export default function Navbar({ user, setUser, setUserName }) {
+export default function Navbar({ userName, setUserName }) {
     const location = useLocation();
 
     const routes = ["", "scheduler", "logger", "records", "analyse"];
     const pages = ["Home", "Schedule", "Log", "Records", "Analyse"];
+
     const pageElements = routes.map((route, index) => (
         <Link
             to={`/${route}`}
@@ -28,18 +29,20 @@ export default function Navbar({ user, setUser, setUserName }) {
         axios
             .post(`${baseURL}/api/auth/logout`)
             .then(() => {
-                checkUser(setUser, setUserName);
+                checkUser(setUserName);
+            })
+            .then(() => {
+                localStorage.clear();
             })
             .catch((err) => {
                 console.log(err);
-                // setError(err.response.data);
             });
     }
 
     return (
         <nav>
             <div className="nav-block nav-left">{pageElements}</div>
-            {user === null ? (
+            {userName === null ? (
                 <div className="nav-block nav-right">
                     <div className="nav-element">
                         <Link to="/login">Login</Link>
@@ -51,7 +54,7 @@ export default function Navbar({ user, setUser, setUserName }) {
             ) : (
                 <div className="nav-block nav-right">
                     <div className="nav-element">
-                        {user.charAt(0).toUpperCase() + user.slice(1)}
+                        {userName.charAt(0).toUpperCase() + userName.slice(1)}
                     </div>
                     <button type="button" className="nav-element" onClick={handleLogout}>
                         Logout

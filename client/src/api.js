@@ -27,13 +27,12 @@ function givePercentageComplete(type, time, logs) {
 
 // API Functions
 
-export const checkUser = (setUser, setUserName) => {
+export const checkUser = (setUserName) => {
     axios
         .get(`${baseURL}/api/auth/check`)
         .then((res) => {
             if (res.status === 200) {
-                setUser(res.data);
-                setUserName(res.data ? res.data.user : null);
+                setUserName(res.data ? res.data.userName : null);
             }
         })
         .catch((e) => {
@@ -41,12 +40,78 @@ export const checkUser = (setUser, setUserName) => {
         });
 };
 
-export const getTodosFromServer = (userId, setTodos, setTodosFetched) => {
+export const getAnalyticsData = (month, setAnalytics) => {
+    const date = new Date(month.getFullYear(), month.getMonth());
+
+    axios
+        .get(`${baseURL}/api/perf/${date}`)
+        .then((res) => {
+            setAnalytics(res.data[0].perf);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+export const postAnalyticsData = (perf) => {
+    axios
+        .post(`${baseURL}/api/perf`, {
+            perf,
+            date: new Date(),
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const postAnalyticsHelper = (perf) => {
+    postAnalyticsData(perf);
+};
+
+export const calcPerfAndPost = (newTodos, callback) => {
+    let perf = 0;
+    let time = 0;
+
+    newTodos.forEach((todo) => {
+        perf += Number(todo.time) * Number(todo.percentageComplete);
+        time += Number(todo.time);
+    });
+
+    if (time === 0) {
+        perf = 0;
+    } else {
+        perf /= time;
+        perf = Math.round(perf);
+    }
+
+    callback(perf);
+};
+
+// export const setPerf = (user, logs, setTodos) => {
+export const setPerf = async (logs, setTodos, callback) => {
+    const newTodos = [];
+
+    setTodos((prevTodos) => {
+        prevTodos.forEach((prevTodo) => {
+            const percentageComplete = givePercentageComplete(prevTodo.type, prevTodo.time, logs);
+
+            newTodos.push({
+                ...prevTodo,
+                percentageComplete,
+            });
+        });
+
+        callback(newTodos, postAnalyticsHelper);
+        return newTodos;
+    });
+};
+
+export const getBothTodosAndLogsFromServer = (setTodos, setLogs, setServerFetched) => {
     let date = new Date();
     date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
     axios
-        .get(`${baseURL}/api/todos/${userId}/${date}`)
+        .get(`${baseURL}/api/todos/${date}`)
         .then((res) => {
             const todosFromServer = [];
             res.data.forEach((todoFromServer) => {
@@ -61,35 +126,66 @@ export const getTodosFromServer = (userId, setTodos, setTodosFetched) => {
             setTodos(todosFromServer);
         })
         .then(() => {
-            setTodosFetched((prevTodosFetched) => prevTodosFetched + 1);
+            axios
+                .get(`${baseURL}/api/logs/${date}`)
+                .then((res) => {
+                    const logsFromServer = [];
+                    res.data.forEach((logFromServer) => {
+                        logsFromServer.push({
+                            type: logFromServer.type,
+                            name: logFromServer.name,
+                            startTime: logFromServer.startTime,
+                            endTime: logFromServer.endTime,
+                            // eslint-disable-next-line no-underscore-dangle
+                            id: logFromServer._id,
+                        });
+                    });
+                    setLogs(logsFromServer);
+                })
+                .then(() => {
+                    setServerFetched((p) => p + 1);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
         })
         .catch((e) => {
             console.log(e);
         });
 };
 
-export const setTodoPercentageComplete = (logs, setTodos) => {
-    setTodos((prevTodos) => {
-        const newTodos = [];
+export const getTodosFromServer = (setTodos, setServerFetched) => {
+    let date = new Date();
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-        prevTodos.forEach((prevTodo) => {
-            const percentageComplete = givePercentageComplete(prevTodo.type, prevTodo.time, logs);
-
-            newTodos.push({
-                ...prevTodo,
-                percentageComplete,
+    axios
+        .get(`${baseURL}/api/todos/${date}`)
+        .then((res) => {
+            const todosFromServer = [];
+            res.data.forEach((todoFromServer) => {
+                todosFromServer.push({
+                    type: todoFromServer.type,
+                    time: todoFromServer.time,
+                    percentageComplete: "0",
+                    // eslint-disable-next-line no-underscore-dangle
+                    id: todoFromServer._id,
+                });
             });
+            setTodos(todosFromServer);
+        })
+        .then(() => {
+            setServerFetched((p) => p + 1);
+        })
+        .catch((e) => {
+            console.log(e);
         });
-
-        return newTodos;
-    });
 };
 
-export const getLogsFromServer = (userId, setLogs, inp = new Date()) => {
+export const getLogsFromServer = (setLogs, setServerFetched = null, inp = new Date()) => {
     const date = new Date(inp.getFullYear(), inp.getMonth(), inp.getDate());
 
     axios
-        .get(`${baseURL}/api/logs/${userId}/${date}`)
+        .get(`${baseURL}/api/logs/${date}`)
         .then((res) => {
             const logsFromServer = [];
             res.data.forEach((logFromServer) => {
@@ -104,32 +200,12 @@ export const getLogsFromServer = (userId, setLogs, inp = new Date()) => {
             });
             setLogs(logsFromServer);
         })
+        .then(() => {
+            if (setServerFetched !== null) {
+                setServerFetched((p) => p + 1);
+            }
+        })
         .catch((e) => {
             console.log(e);
-        });
-};
-
-export const getAnalyticsData = (forUser, month, setAnalytics) => {
-    const date = new Date(month.getFullYear(), month.getMonth());
-
-    axios
-        .get(`${baseURL}/api/perf/${forUser.id}/${date}`)
-        .then((res) => {
-            setAnalytics(res.data[0].perf);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
-
-export const postAnalyticsData = (user, perf) => {
-    axios
-        .post(`${baseURL}/api/perf`, {
-            perf,
-            date: new Date(),
-            userId: user.id,
-        })
-        .catch((err) => {
-            console.log(err);
         });
 };

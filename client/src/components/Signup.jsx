@@ -12,7 +12,7 @@ const emptyFormData = {
     password: "",
 };
 
-function Signup({ setUser, setUserName }) {
+function Signup({ setUserName }) {
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState(emptyFormData);
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ function Signup({ setUser, setUserName }) {
                 }
             )
             .then(() => {
-                checkUser(setUser, setUserName);
+                checkUser(setUserName);
             })
             .then(() => {
                 setFormData(emptyFormData);

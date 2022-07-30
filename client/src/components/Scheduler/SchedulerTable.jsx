@@ -8,12 +8,12 @@ import { getTodosFromServer } from "../../api.js";
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-export default function SchedulerTable({ user, todos, setTodos, setTodosFetched }) {
+export default function SchedulerTable({ todos, setTodos, setServerFetched }) {
     function handleDelete(id) {
         axios
             .delete(`${baseURL}/api/todos/${id}`)
             .then(() => {
-                getTodosFromServer(user.id, setTodos, setTodosFetched);
+                getTodosFromServer(setTodos, setServerFetched);
             })
             .catch((e) => console.log(e));
     }

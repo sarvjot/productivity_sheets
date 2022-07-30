@@ -3,7 +3,7 @@ import { handleGet, handlePost, handleDelete } from "../controllers/todoControll
 
 const router = express.Router();
 
-router.get("/:id/:date", handleGet);
+router.get("/:date", handleGet);
 router.post("/", handlePost);
 router.delete("/:id", handleDelete);
 

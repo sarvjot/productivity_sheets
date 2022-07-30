@@ -9,22 +9,22 @@ function handleErrors(err) {
 }
 
 const handleGet = (req, res, next) => {
-    const { date, id } = req.params;
+    const { date } = req.params;
 
-    Log.find({ author: id, creationTime: date })
+    Log.find({ author: res.locals.userId, creationTime: date })
         .then((data) => res.json(data))
         .catch(next);
 };
 
 const handlePost = (req, res) => {
-    const { type, name, startTime, endTime, userId } = req.body;
+    const { type, name, startTime, endTime } = req.body;
 
     Log.create({
         type,
         name,
         startTime,
         endTime,
-        author: userId,
+        author: res.locals.userId,
     })
         .then((data) => res.json(data))
         .catch((err) => {

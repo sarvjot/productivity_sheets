@@ -14,7 +14,7 @@ const emptyFormData = {
     percentageComplete: "",
 };
 
-export default function SchedulerForm({ user, setTodos, setTodosFetched, todoOptions }) {
+export default function SchedulerForm({ setTodos, setServerFetched, todoOptions }) {
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState(emptyFormData);
 
@@ -32,10 +32,9 @@ export default function SchedulerForm({ user, setTodos, setTodosFetched, todoOpt
             .post(`${baseURL}/api/todos`, {
                 type: formData.type,
                 time: formData.time,
-                userId: user.id,
             })
             .then(() => {
-                getTodosFromServer(user.id, setTodos, setTodosFetched);
+                getTodosFromServer(setTodos, setServerFetched);
                 setFormData(emptyFormData);
                 setError(null);
             })

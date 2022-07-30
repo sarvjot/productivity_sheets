@@ -11,7 +11,7 @@ const emptyFormData = {
     password: "",
 };
 
-function Login({ setUser, setUserName }) {
+function Login({ setUserName }) {
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState(emptyFormData);
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ function Login({ setUser, setUserName }) {
                 }
             )
             .then(() => {
-                checkUser(setUser, setUserName);
+                checkUser(setUserName);
             })
             .then(() => {
                 setFormData(emptyFormData);

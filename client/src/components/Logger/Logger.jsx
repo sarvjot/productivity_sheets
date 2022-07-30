@@ -6,7 +6,7 @@ import Performance from "../Performance.jsx";
 import LoggerForm from "./LoggerForm.jsx";
 import LoggerTable from "./LoggerTable.jsx";
 
-export default function Logger({ user, logs, todos, month, setLogs, setAnalytics }) {
+export default function Logger({ logs, todos, setLogs, setServerFetched }) {
     const [logOptions, setLogOptions] = useState([]);
 
     useEffect(() => {
@@ -28,9 +28,13 @@ export default function Logger({ user, logs, todos, month, setLogs, setAnalytics
     return (
         <div className="logger table-container main">
             <h1 className="center-vertically heading">Log Today's Tasks</h1>
-            <Performance user={user} todos={todos} month={month} setAnalytics={setAnalytics} />
-            <LoggerTable user={user} logs={logs} setLogs={setLogs} />
-            <LoggerForm user={user} logOptions={logOptions} setLogs={setLogs} />
+            <Performance todos={todos} />
+            <LoggerTable logs={logs} setLogs={setLogs} setServerFetched={setServerFetched} />
+            <LoggerForm
+                setLogs={setLogs}
+                setServerFetched={setServerFetched}
+                logOptions={logOptions}
+            />
         </div>
     );
 }

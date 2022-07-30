@@ -21,7 +21,7 @@ const emptyFormData = {
     type: "",
 };
 
-export default function LoggerForm({ logOptions, user, setLogs }) {
+export default function LoggerForm({ setLogs, setServerFetched, logOptions }) {
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState(emptyFormData);
 
@@ -52,10 +52,9 @@ export default function LoggerForm({ logOptions, user, setLogs }) {
                 name: formData.name,
                 startTime: formData.startTime,
                 endTime: formData.endTime,
-                userId: user.id,
             })
             .then(() => {
-                getLogsFromServer(user.id, setLogs);
+                getLogsFromServer(setLogs, setServerFetched);
                 setFormData(emptyFormData);
                 setError(null);
             })

@@ -10,15 +10,6 @@ function handleErrors(err) {
         return Object.values(err.errors)[0].message;
     }
 
-    // Email does not exist -> err.message
-    // Incorrect password -> err.message
-
-    // Username should not be empty --
-    // Email should not be empty    ---> Object.values(err.errors)[i].message
-    // Password should not be empty --
-    // Username should not be more than 10 characters --
-    // Invalid Email
-
     return err.message;
 }
 
@@ -89,8 +80,7 @@ export const handleCheck = async (req, res) => {
                         res.status(400).send("Expired Cookie Deleted!");
                     } else {
                         res.status(200).json({
-                            user: user.userName,
-                            id: user._id,
+                            userName: user.userName,
                         });
                     }
                 }

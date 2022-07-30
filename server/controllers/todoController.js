@@ -13,19 +13,19 @@ function handleErrors(err) {
 }
 
 const handleGet = (req, res, next) => {
-    const { date, id } = req.params;
+    const { date } = req.params;
 
-    Todo.find({ author: id, creationTime: date })
+    Todo.find({ author: res.locals.userId, creationTime: date })
         .then((data) => res.json(data))
         .catch(next);
 };
 
 const handlePost = (req, res) => {
-    const { type, time, userId } = req.body;
+    const { type, time } = req.body;
     Todo.create({
         type,
         time,
-        author: userId,
+        author: res.locals.userId,
     })
         .then((data) => res.json(data))
         .catch((err) => {
@@ -33,8 +33,8 @@ const handlePost = (req, res) => {
         });
 };
 
-const handleDelete = (req, res, next) => {
-    Todo.findOneAndDelete({ _id: req.params.id })
+const handleDelete = async (req, res, next) => {
+    Todo.findOneAndDelete({ _id: req.params.id, author: res.locals.userId })
         .then((data) => res.json(data))
         .catch(next);
 };

@@ -1,28 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import { getAnalyticsData } from "../../api.js";
-
-export default function AnalyserForm({ user, setAnalytics, month, setMonth }) {
-    const [formMonth, setFormMonth] = useState(month);
-
-    useEffect(() => {
-        if (user) {
-            getAnalyticsData(user, month, setAnalytics);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        setMonth(formMonth);
-        getAnalyticsData(user, formMonth, setAnalytics);
-    };
-
+export default function AnalyserForm({ month, setMonth }) {
     return (
         <form className="records-form">
             <div className="records-form-text">Choose a month to analyse</div>
@@ -30,9 +12,9 @@ export default function AnalyserForm({ user, setAnalytics, month, setMonth }) {
                 <DatePicker
                     openTo="year"
                     views={["year", "month"]}
-                    value={formMonth}
+                    value={month}
                     onChange={(x) => {
-                        setFormMonth(x);
+                        setMonth(x);
                     }}
                     renderInput={(params) => (
                         <TextField
@@ -66,9 +48,6 @@ export default function AnalyserForm({ user, setAnalytics, month, setMonth }) {
                     )}
                 />
             </LocalizationProvider>
-            <button type="button" onClick={handleSubmit}>
-                Submit
-            </button>
         </form>
     );
 }

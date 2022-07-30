@@ -10,21 +10,15 @@ import Records from "./Records/Records.jsx";
 import Analyser from "./Analyser/Analyser.jsx";
 import PrivateRoutes from "./PrivateRoutes.jsx";
 import Scheduler from "./Scheduler/Scheduler.jsx";
-
-import { checkUser, setTodoPercentageComplete } from "../api.js";
+import { checkUser, setPerf, calcPerfAndPost } from "../api.js";
 
 export default function App() {
     // states and variables
 
-    const [user, setUser] = useState(null);
-    const [userName, setUserName] = useState(JSON.parse(localStorage.getItem("userName")) || null);
     const [logs, setLogs] = useState([]);
     const [todos, setTodos] = useState([]);
-    const [todosFetched, setTodosFetched] = useState(0);
-    const [analytics, setAnalytics] = useState(JSON.parse(localStorage.getItem("analytics")) || []);
-    const [month, setMonth] = useState(
-        localStorage.getItem("month") ? new Date(localStorage.getItem("month")) : new Date()
-    );
+    const [serverFetched, setServerFetched] = useState(0);
+    const [userName, setUserName] = useState(JSON.parse(localStorage.getItem("userName")) || null);
 
     // hooks
 
@@ -33,36 +27,28 @@ export default function App() {
     }, [userName]);
 
     useEffect(() => {
-        localStorage.setItem("analytics", JSON.stringify(analytics));
-    }, [analytics]);
-
-    useEffect(() => {
-        localStorage.setItem("month", month.toString());
-    }, [month]);
+        setPerf(logs, setTodos, calcPerfAndPost);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [serverFetched]);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => checkUser(setUser, setUserName), []);
-
-    useEffect(() => {
-        setTodoPercentageComplete(logs, setTodos);
-    }, [logs, todosFetched]);
+    useEffect(() => checkUser(setUserName), []);
 
     // return component
 
     return (
         <div>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <Navbar user={userName} setUser={setUser} setUserName={setUserName} />
+                <Navbar userName={userName} setUserName={setUserName} />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route
                         element={
                             <PrivateRoutes
-                                user={user}
                                 userName={userName}
-                                setLogs={setLogs}
                                 setTodos={setTodos}
-                                setTodosFetched={setTodosFetched}
+                                setLogs={setLogs}
+                                setServerFetched={setServerFetched}
                             />
                         }
                     >
@@ -70,12 +56,10 @@ export default function App() {
                             path="/logger"
                             element={
                                 <Logger
-                                    user={user}
                                     logs={logs}
                                     todos={todos}
-                                    month={month}
                                     setLogs={setLogs}
-                                    setAnalytics={setAnalytics}
+                                    setServerFetched={setServerFetched}
                                 />
                             }
                         />
@@ -83,38 +67,18 @@ export default function App() {
                             path="/scheduler"
                             element={
                                 <Scheduler
-                                    user={user}
                                     logs={logs}
                                     todos={todos}
-                                    month={month}
                                     setTodos={setTodos}
-                                    setAnalytics={setAnalytics}
-                                    setTodosFetched={setTodosFetched}
+                                    setServerFetched={setServerFetched}
                                 />
                             }
                         />
-                        <Route path="/records" element={<Records user={user} />} />
-                        <Route
-                            path="/analyse"
-                            element={
-                                <Analyser
-                                    user={user}
-                                    month={month}
-                                    analytics={analytics}
-                                    setMonth={setMonth}
-                                    setAnalytics={setAnalytics}
-                                />
-                            }
-                        />
+                        <Route path="/records" element={<Records />} />
+                        <Route path="/analyse" element={<Analyser />} />
                     </Route>
-                    <Route
-                        path="/login"
-                        element={<Login setUser={setUser} setUserName={setUserName} />}
-                    />
-                    <Route
-                        path="/signup"
-                        element={<Signup setUser={setUser} setUserName={setUserName} />}
-                    />
+                    <Route path="/login" element={<Login setUserName={setUserName} />} />
+                    <Route path="/signup" element={<Signup setUserName={setUserName} />} />
                 </Routes>
             </BrowserRouter>
         </div>
