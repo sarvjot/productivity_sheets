@@ -2,10 +2,7 @@ import { Perf } from "../models/index.js";
 
 const handleGet = async (req, res) => {
     try {
-        let { date } = req.params;
-
-        date = new Date(date);
-        const month = new Date(date.getFullYear(), date.getMonth());
+        const { month } = req.params;
 
         const exists = await Perf.exists({ author: res.locals.userId, creationTime: month });
 
@@ -26,12 +23,7 @@ const handleGet = async (req, res) => {
 
 const handlePost = async (req, res) => {
     try {
-        let { date } = req.body;
-        const { perf } = req.body;
-
-        date = new Date(date);
-        const month = new Date(date.getFullYear(), date.getMonth());
-        const day = date.getDate() - 1;
+        const { perf, day, month } = req.body;
 
         const exists = await Perf.exists({ author: res.locals.userId, creationTime: month });
 

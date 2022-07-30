@@ -28,13 +28,20 @@ export default function SchedulerForm({ setTodos, setServerFetched, todoOptions 
     function handleSubmit(event) {
         event.preventDefault();
 
+        let creationTime = new Date();
+        creationTime = new Date(
+            creationTime.getFullYear(),
+            creationTime.getMonth(),
+            creationTime.getDate()
+        );
+
         axios
             .post(
                 `${baseURL}/api/todos`,
                 {
                     type: formData.type,
                     time: formData.time,
-                    creationTime: new Date(),
+                    creationTime,
                 },
                 {
                     withCredentials: true,

@@ -46,6 +46,13 @@ export default function LoggerForm({ setLogs, setServerFetched, logOptions }) {
     function handleSubmit(event) {
         event.preventDefault();
 
+        let creationTime = new Date();
+        creationTime = new Date(
+            creationTime.getFullYear(),
+            creationTime.getMonth(),
+            creationTime.getDate()
+        );
+
         axios
             .post(
                 `${baseURL}/api/logs`,
@@ -54,7 +61,7 @@ export default function LoggerForm({ setLogs, setServerFetched, logOptions }) {
                     name: formData.name,
                     startTime: formData.startTime,
                     endTime: formData.endTime,
-                    creationTime: new Date(),
+                    creationTime,
                 },
                 {
                     withCredentials: true,

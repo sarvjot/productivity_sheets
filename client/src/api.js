@@ -54,10 +54,15 @@ export const getAnalyticsData = (month, setAnalytics) => {
 };
 
 export const postAnalyticsData = (perf) => {
+    const date = new Date();
+    const day = date.getDate() - 1;
+    const month = new Date(date.getFullYear(), date.getMonth());
+
     axios
         .post(`${baseURL}/api/perf`, {
             perf,
-            date: new Date(),
+            day,
+            month,
         })
         .catch((err) => {
             console.log(err);
