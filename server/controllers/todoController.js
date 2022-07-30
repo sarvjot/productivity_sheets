@@ -21,11 +21,16 @@ const handleGet = (req, res, next) => {
 };
 
 const handlePost = (req, res) => {
-    const { type, time } = req.body;
+    const { type, time, creationTime } = req.body;
+
+    let x = new Date(creationTime);
+    x = new Date(x.getFullYear(), x.getMonth(), x.getDate());
+
     Todo.create({
         type,
         time,
         author: res.locals.userId,
+        creationTime: x,
     })
         .then((data) => res.json(data))
         .catch((err) => {

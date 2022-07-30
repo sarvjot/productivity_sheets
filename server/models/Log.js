@@ -81,13 +81,6 @@ LogSchema.pre("validate", function (next) {
     }
 });
 
-LogSchema.pre("save", function (next) {
-    const x = new Date();
-    this.creationTime = new Date(x.getFullYear(), x.getMonth(), x.getDate());
-
-    next();
-});
-
 const Log = mongoose.model("log", LogSchema);
 
 export default Log;

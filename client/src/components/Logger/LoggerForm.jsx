@@ -54,6 +54,7 @@ export default function LoggerForm({ setLogs, setServerFetched, logOptions }) {
                     name: formData.name,
                     startTime: formData.startTime,
                     endTime: formData.endTime,
+                    creationTime: new Date(),
                 },
                 {
                     withCredentials: true,

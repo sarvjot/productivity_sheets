@@ -34,6 +34,7 @@ export default function SchedulerForm({ setTodos, setServerFetched, todoOptions 
                 {
                     type: formData.type,
                     time: formData.time,
+                    creationTime: new Date(),
                 },
                 {
                     withCredentials: true,

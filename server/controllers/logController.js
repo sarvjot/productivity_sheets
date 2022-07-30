@@ -17,7 +17,10 @@ const handleGet = (req, res, next) => {
 };
 
 const handlePost = (req, res) => {
-    const { type, name, startTime, endTime } = req.body;
+    const { type, name, startTime, endTime, creationTime } = req.body;
+
+    let x = new Date(creationTime);
+    x = new Date(x.getFullYear(), x.getMonth(), x.getDate());
 
     Log.create({
         type,
@@ -25,6 +28,7 @@ const handlePost = (req, res) => {
         startTime,
         endTime,
         author: res.locals.userId,
+        creationTime: x,
     })
         .then((data) => res.json(data))
         .catch((err) => {

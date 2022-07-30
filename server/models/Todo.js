@@ -38,13 +38,6 @@ const TodoSchema = new Schema({
 
 TodoSchema.index({ author: 1, creationTime: 1, type: 1 }, { unique: true });
 
-TodoSchema.pre("save", function (next) {
-    const x = new Date();
-    this.creationTime = new Date(x.getFullYear(), x.getMonth(), x.getDate());
-
-    next();
-});
-
 const Todo = mongoose.model("todo", TodoSchema);
 
 export default Todo;
