@@ -3,7 +3,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Anek Latin', sans-serif;
+    font-family: "Anek Latin", sans-serif;
     box-sizing: border-box;
     text-decoration: none;
     color: black;
@@ -62,3 +62,42 @@ textarea,
 button {
     font-size: inherit;
 }
+
+/* Media Queries */
+
+@media (max-width: 1100px) {
+    .heading {
+        width: 600px;
+        font-size: 40px;
+    }
+
+    .sub-heading {
+        width: 375px;
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 650px) {
+    .heading {
+        width: 450px;
+        font-size: 35px;
+    }
+
+    .sub-heading {
+        width: 300px;
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 500px) {
+    .heading {
+        width: 300px;
+        font-size: 25px;
+    }
+
+    .sub-heading {
+        width: 225px;
+        font-size: 18px;
+    }
+}
+

@@ -55,12 +55,17 @@ function Signup({ setUserName }) {
         <div className="main">
             <h1 className="center-vertically heading">Signup</h1>
             <form className="auth-form signup-form">
+                <div className="auth-switch">
+                    <div>Already have account:</div>
+                    <Link to="/login">Login</Link>
+                </div>
                 <input
                     type="text"
                     name="userName"
                     placeholder="Username"
                     onChange={handleChange}
                     value={formData.userName}
+                    className="auth-input"
                 />
                 <input
                     type="text"
@@ -68,6 +73,7 @@ function Signup({ setUserName }) {
                     placeholder="Email"
                     onChange={handleChange}
                     value={formData.email}
+                    className="auth-input"
                 />
                 <input
                     type="text"
@@ -75,14 +81,11 @@ function Signup({ setUserName }) {
                     placeholder="Password"
                     onChange={handleChange}
                     value={formData.password}
+                    className="auth-input"
                 />
-                <button type="submit" onClick={handleClick}>
+                <button type="submit" className="auth-button" onClick={handleClick}>
                     Signup
                 </button>
-                <div className="auth-switch">
-                    <div>Already have account:</div>
-                    <Link to="/login">Login</Link>
-                </div>
             </form>
 
             <div className={`error-box ${error === null ? "no-error" : "error"}`}>

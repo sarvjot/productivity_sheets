@@ -25,7 +25,7 @@ export default function Analyser() {
 
     return (
         <div className="main table-container">
-            <h1 className="center-vertically heading">Analyse this month's progress</h1>
+            <h1 className="center-vertically heading">Analyse month's progress</h1>
             <AnalyserForm month={month} setMonth={setMonth} />
             <AnalyserChart month={month} analytics={analytics} />
         </div>
