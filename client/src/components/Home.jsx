@@ -3,10 +3,10 @@ import { nanoid } from "nanoid";
 
 import "../styles/home.css";
 
-import logImg from "../images/log.jpg";
-import recordsImg from "../images/records.jpg";
-import scheduleImg from "../images/schedule.jpg";
-import analysisImg from "../images/analysis.jpg";
+import logImg from "../images/log.webp";
+import recordsImg from "../images/records.webp";
+import scheduleImg from "../images/schedule.webp";
+import analysisImg from "../images/analysis.webp";
 
 export default function Home() {
     const [feature, setFeature] = useState(0);
