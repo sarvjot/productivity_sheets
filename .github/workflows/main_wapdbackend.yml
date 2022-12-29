@@ -11,7 +11,7 @@ on:
   
 defaults:
   run:
-    working-directory: client 
+    working-directory: server 
     
 env:
   AZURE_WEBAPP_PACKAGE_PATH: './server'
