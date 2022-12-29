@@ -67,5 +67,5 @@ jobs:
           app-name: 'wapdBackend'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
-          package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+          package: .
 
