@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1993c4d7-0960-4f5f-aa6e-96c8d8d1af07/deploy-status)](https://app.netlify.com/sites/animated-stardust-bc1d3e/deploys)
+
 # [What A Productive Day](https://www.whataproductiveday.study/)
 
 1. This app asks two simple questions, "What do you want to do today?" and "What did you do today?". And based on your response, it generates your daily performance score. 
