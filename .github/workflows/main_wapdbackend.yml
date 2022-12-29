@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
 
   deploy:
 
@@ -61,5 +61,5 @@ jobs:
           app-name: 'wapdBackend'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
-          package: .
+          package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
 
