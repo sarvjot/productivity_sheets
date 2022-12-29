@@ -9,8 +9,12 @@ on:
       - main
   workflow_dispatch:
   
+defaults:
+  run:
+    working-directory: client 
+    
 env:
-  AZURE_WEBAPP_PACKAGE_PATH: './server'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: './server'
 
 jobs:
   build:
