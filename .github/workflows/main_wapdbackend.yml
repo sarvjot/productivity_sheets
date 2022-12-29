@@ -52,6 +52,12 @@ jobs:
 
       - name: Azure Login
         uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: 'AzureStack'
+
+      - run: |
+          az webapp list --query "[?state=='Running']"
 
 
       - name: 'Deploy to Azure Web App'
